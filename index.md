@@ -1,12 +1,8 @@
-## Welcome to GitHub Pages
+## Wuori's Audible Library
 
-You can use the [editor on GitHub](https://github.com/wuori/wuori/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+### Books I've read
 
-### Markdown
-
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
 
 <table><thead><tr><th>Image</th><th>Title</th><th>Authors</th><th>Narrators</th><th>Series</th><th>Length (min)</th></tr></thead><tbody><tr><td><img src="https://m.media-amazon.com/images/I/51b6fvQr1-L._SL500_.jpg"></td><td><a href="/pd/Project-Hail-Mary-Audiobook/B08G9PRS1K?ref=a_library_t_c5_libItem_&amp;pf_rd_p=85df3330-9dc4-4a45-ae69-93cc2fc25ca4&amp;pf_rd_r=GG5X8WEW2AGWYB6XZJ08">Project Hail Mary</a></td><td><a href="https://www.audible.com/author/Andy-Weir/B00G0WYW92?ref=a_pd_Projec_c1_author_1&amp;pf_rd_p=2ff1ab1a-6363-4572-8889-79f71f15bd3a&amp;pf_rd_r=183JFES0EXWYMJAF5M10">Andy Weir</a></td><td><a href="https://www.audible.com/search?searchNarrator=Ray+Porter&amp;ref=a_pd_Projec_c1_narrator_1&amp;pf_rd_p=2ff1ab1a-6363-4572-8889-79f71f15bd3a&amp;pf_rd_r=183JFES0EXWYMJAF5M10">Ray Porter</a></td><td></td><td>
     
