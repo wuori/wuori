@@ -153,7 +153,7 @@
                     <form id='spin-win-form'>
                         <img src='https://secureservercdn.net/50.62.198.97/j3w.10d.myftpupload.com/wp-content/uploads/2019/04/Am%C3%A9liesLogo-1.png' class='logo img-fluid'>
                         <h3 style="margin-top: 4px;">Claim your prize!</h3>
-                        <p style="margin-top: -10px;">Enter your email address to enter:</p>
+                        <p style="margin-top: -10px;">Enter your email address to play:</p>
                         <div class="form-group">
                             <input type="email" oninput="validateEmail()" id="email" class="form-control email-input" placeholder="Ex: winner@domain.com" aria-describedby="emailHelp">
                         </div>
@@ -313,7 +313,7 @@
                     'discoveryDocs': ['https://sheets.googleapis.com/$discovery/rest?version=v4'],
                 }).then(() => {
                     gapi.auth2.getAuthInstance().isSignedIn.listen(this.updateSignInStatus); //add a function called `updateSignInStatus` if you want to do something once a user is logged in with Google
-                    this.updateSignInStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
+                    // this.updateSignInStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
                 });
             }    
 
