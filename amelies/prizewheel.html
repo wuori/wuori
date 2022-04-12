@@ -198,6 +198,10 @@
                         <h3>Whoops! This link has already been used.</h3>
                         <p>Each link is valid for one spin only.</p>
                     </div>
+                    <div id='invalid-token'>
+                        <h3>The party's over! All prizes have been claimed.</h3>
+                        <p>Thanks for playing!</p>
+                    </div>
                     <p style="text-align: center; padding: 20px 0 0; margin-bottom: 0; font-size: 12px;">Scavenger hunt
                         contest valid 4/12/22- 4/14/22. Limit one prize
                         per
@@ -594,6 +598,13 @@
                 tokens = res.tokens;
                 emails = res.emails;
                 claimedPrizes = res.prizes;
+
+                // all prizes claimed
+                if(claimedPrizes.length == 11){
+                    $('#spin-win-form').hide();
+                    $('#all-claimed').show();
+                    return;
+                }
 
                 // token already used
                 if (!token || tokens.indexOf(token) !== -1) {
