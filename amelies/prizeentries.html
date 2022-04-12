@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Amelie's Prize Wheel</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#0B032D">
+    <meta name="theme-color" content="#0B032D" media="(prefers-color-scheme: dark)">
+    <style>
+        body,
+        html,
+        #app-loading {
+            width: 100vw;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            background: #fefefe !important;
+            -webkit-font-smoothing: antialiased;
+            font-family: 'Nunito', sans-serif;
+        }
+
+        .spin-contain {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            padding: 20px;
+            background: #92bbcb;
+            /* box-shadow: 0 0 22px rgba(0, 0, 0, 0.6); */
+        }
+
+        .spin-contain-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .canvas-contain {
+            width: 520px;
+            height: 520px;
+            padding: 10px;
+            position: absolute;
+            background: #fff;
+            border-radius: 100%;
+            box-shadow: 0 0 12px rgba(0, 0, 0, 0.3);
+            top: 0;
+            left: 50%;
+            margin-top: 30px;
+            transform: translate(-50%, -100%) rotate(90deg) scale(0.8);
+        }
+
+        canvas {
+            position: relative;
+            z-index: 2;
+        }
+
+        .canvas-contain img {
+            position: absolute;
+            top: 50%;
+            right: -10px;
+            z-index: 3;
+            width: 60px;
+            height: auto;
+            /* background: #f0f38a; */
+            transform: translate(0, -50%) rotate(90deg);
+        }
+
+        .pointer {
+            position: absolute;
+            top: 50%;
+            right: 0;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 20px 40px 20px 0;
+            border-color: transparent #600 transparent transparent;
+            z-index: 3;
+            transform: translate(0, -50%);
+        }
+
+        .copy {
+            margin-top: 210px;
+            text-align: center;
+            background: #f3f3f3;
+            border-radius: 5px;
+            padding: 30px;
+        }
+
+        .logo {
+            max-width: 200px;
+            margin-bottom: 20px;
+        }
+
+        #invalid-token {
+            display: none;
+        }
+
+        #spin-win-area {
+            display: none;
+        }
+
+        #spin-win-code {
+            font-size: 110%;
+            font-weight: bold;
+            color: #900;
+        }
+
+        @media (min-width: 1000px) {
+            .spin-contain {
+                padding: 40px;
+                min-width: 700px;
+                max-width: 700px;
+                margin-left: calc(100vw/2 - 250px);
+            }
+
+            .canvas-contain {
+                top: 50%;
+                left: 0;
+                transform: translate(-50%, -50%);
+                margin: 0 0 0 -40px;
+            }
+
+            .copy {
+                margin-top: 0;
+                position: absolute;
+                top: 50%;
+                left: 260px;
+                text-align: center;
+                padding: 30px;
+                transform: translate(0, -50%);
+            }
+        }
+
+        .email-input {
+            border-radius: 3px;
+            border: 1px solid #333;
+            height: 35px;
+            font-size: 18px;
+            padding: 3px 10px;
+            min-width: 280px;
+            text-align: center;
+        }
+
+        .submit-btn {
+            border-radius: 3px;
+            border: 1px solid #333;
+            height: 35px;
+            font-size: 18px;
+            padding: 3px 20px;
+            color: #fff !important;
+            font-weight: bold;
+            background: #1A659E !important;
+            /* opacity: 1 !important; */
+        }
+        td{
+            border-bottom: 1px solid #eee;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="entries" style="margin: 10vh 10vh 0;">
+        <h3>Current Entries:</h3>
+        <hr />
+        <table id="table" cellpadding="10">
+            <tr>
+                <td><b>Email Address</b></td>
+                <td><b>Prize</b></td>
+                <td><b>Date</b></td>
+                <td><b>Actions</b></td>
+            </tr>
+        </table>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <script>
+
+        function writeTable(array) {
+            // declare html variable (a string holder):
+            var html = '';
+            for (var i = 0; i < array.length; i++) {
+                // add opening <tr> tag to the string:
+                html += '<tr>';
+                html += '<td>' + array[i].email + '</td>';
+                html += '<td>' + array[i].prize + '</td>';
+                html += '<td>' + array[i].created_at + '</td>';
+                html += '<td><a style="font-weight:bold; color: #f00;" href="javascript:removeEntry('+array[i].id+');">Remove</a></td>';
+                // add closing </tr> tag to the string:
+                html += '</tr>';
+            }
+            //append created html to the table body:
+            $('#table').append(html);
+        }
+
+        function removeEntry(id){
+            if (confirm("Confirm Removal? Can not be undone!") == true) {
+                $.get('https://imokay.me/api/bw/?remove=' + id, () => {
+                    location.reload();
+                });
+            }
+        }
+
+        $(document).ready(function () {
+
+            // let claimed;
+            $.get('https://imokay.me/api/bw/?entries=true', (res) => {
+                writeTable(res);
+            });
+
+            $("form").submit(function () {
+                $(this).find("input[type='submit']").prop("disabled", true);
+                startSpin();
+                return false;
+            });
+        });
+
+
+    </script>
+</body>
+
+</html>
